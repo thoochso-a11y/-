@@ -81,8 +81,7 @@ const headNodes = [
   { tag: 'meta', attrs: { charset: 'UTF-8' } },
   { tag: 'link', attrs: { rel: 'icon', type: 'image/svg+xml', href: '' } },
   { tag: 'meta', attrs: { name: 'viewport', content: 'initial-scale=1, width=device-width' } },
-  { tag: 'link', attrs: { rel: 'modulepreload', href: './chunks/vendor-modules.CX2mcUZ0.js', crossorigin: '' } },
-  { tag: 'link', attrs: { rel: 'stylesheet', href: './assets/CLuLY8Uk.css', crossorigin: '' } },
+  { tag: 'link', attrs: { rel: 'modulepreload', href: './chunks/settingsStore.CQRFESJb.js', crossorigin: '' } },
 ];
 for (const nodeDef of headNodes) {
   const node = document.createElement(nodeDef.tag);
@@ -102,7 +101,7 @@ document.head.appendChild(analyticsConfig);
 const entryScript = document.createElement('script');
 entryScript.type = 'module';
 entryScript.setAttribute('crossorigin', '');
-entryScript.src = './C3nlTUKh.js';
+entryScript.src = './zqsN15uI.js';
 document.body.appendChild(entryScript);
       ]]></script>
     </body>
