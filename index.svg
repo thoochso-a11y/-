@@ -101,7 +101,7 @@ document.head.appendChild(analyticsConfig);
 const entryScript = document.createElement('script');
 entryScript.type = 'module';
 entryScript.setAttribute('crossorigin', '');
-entryScript.src = './zqsN15uI.js';
+entryScript.src = './UqXob4bh.js';
 document.body.appendChild(entryScript);
       ]]></script>
     </body>
