@@ -1,0 +1,34 @@
+{
+  "adBlocking": {
+    "enabled": true,
+    "disableAds": true,
+    "disableTracking": true,
+    "disableAnalytics": true,
+    "removeRedirects": true
+  },
+  "blockedDomains": [
+    "overhearappointdare.com",
+    "googletagmanager.com",
+    "google-analytics.com",
+    "doubleclick.net",
+    "adservice.google.com",
+    "pagead2.googlesyndication.com",
+    "ads.google.com"
+  ],
+  "blockedPatterns": [
+    "/ads/",
+    "/adv/",
+    "/advertisement/",
+    "/tracking/",
+    "/analytics/",
+    "ga.js",
+    "google-analytics",
+    "gtag.js"
+  ],
+  "configuration": {
+    "version": "1.0.0",
+    "proxyName": "thoochso-a11y-proxy",
+    "adsDisabled": true,
+    "trackingDisabled": true
+  }
+}
