@@ -5,10 +5,29 @@ const routes = {
   search: /\/q\/r\/([a-f0-9]+)$/
 };
 
-// Blocked domains that redirect traffic
+// Blocked domains that redirect traffic or serve ads
 const blockedDomains = [
   'overhearappointdare.com',
-  'https://overhearappointdare.com/'
+  'https://overhearappointdare.com/',
+  'googletagmanager.com',
+  'google-analytics.com',
+  'doubleclick.net',
+  'adservice.google.com',
+  'pagead2.googlesyndication.com',
+  'ads.google.com'
+];
+
+// Blocked URL patterns for ads and tracking
+const blockedPatterns = [
+  /\/ads\//i,
+  /\/adv\//i,
+  /\/advertisement\//i,
+  /\/tracking\//i,
+  /\/analytics\//i,
+  /ga\.js/i,
+  /google-analytics/i,
+  /gtag\.js/i,
+  /googletagmanager/i
 ];
 
 // Handle hashed search index requests
@@ -36,10 +55,34 @@ function isBlockedDomain(url) {
   }
 }
 
+function isBlockedPattern(url) {
+  return blockedPatterns.some(pattern => pattern.test(url));
+}
+
+function isAd(url) {
+  return isBlockedDomain(url) || isBlockedPattern(url);
+}
+
 self.addEventListener('fetch', async (event) => {
   const { request } = event;
   const url = new URL(request.url);
   const pathname = url.pathname;
+
+  // Block ads and tracking
+  if (isAd(request.url)) {
+    event.respondWith(
+      new Response(JSON.stringify({ 
+        error: 'Blocked ad/tracking request', 
+        blocked: true,
+        url: request.url,
+        type: 'ad-blocker'
+      }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    );
+    return;
+  }
 
   // Block redirects to overhearappointdare.com
   if (isBlockedDomain(request.url)) {
@@ -86,10 +129,10 @@ self.addEventListener('fetch', async (event) => {
 
 async function handleRoute(request, route) {
   try {
-    // Block if target URL contains blocked domain
-    if (isBlockedDomain(request.url)) {
+    // Block if target URL contains blocked domain or pattern
+    if (isBlockedDomain(request.url) || isBlockedPattern(request.url)) {
       return new Response(JSON.stringify({ 
-        error: 'Blocked domain',
+        error: 'Blocked domain/ad',
         blocked: true 
       }), {
         status: 403,
