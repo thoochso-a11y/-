@@ -1,0 +1,1 @@
+const routes={game:/\/game\/([^\/]+)\/(.*)/,bypass:/\/bypass\/(.*)/,assets:/\/assets\/(.*)/};function matchRoute(e){for(const t in routes)if(routes[t].test(e))return t;return null}self.addEventListener('fetch',e=>{const t=matchRoute(e.request.url);t&&e.respondWith(handleRouting(t,e.request))});
