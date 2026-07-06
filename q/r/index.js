@@ -33,7 +33,7 @@ const blockedPatterns = [
 // Handle hashed search index requests
 const searchIndexes = {
   '0117461c3458437d0207531826534231060e1d5e77505c7d58511d5f775758625e501d': 'ultraviolet-index',
-  '0117461c3458437d0e0c5d0b2b074231060e': 'scramjet-index'
+  '0117461c3458437d0a0a5c09251b42350d': 'scramjet-index'
 };
 
 function matchRoute(path) {
