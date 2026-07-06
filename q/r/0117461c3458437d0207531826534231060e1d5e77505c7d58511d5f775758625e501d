@@ -1,0 +1,54 @@
+// Scramjet Search Engine Index
+// Provides fallback routing for query parameters
+const scramjetIndex = {
+  version: '1.0',
+  searchEngines: ['ultraviolet', 'scramjet'],
+  routes: {
+    '/q': { type: 'handler', handler: 'c.js' },
+    '/x': { type: 'wasm', module: 'a.mjs' },
+    '/y': { type: 'transport', handler: 'transport.js' },
+    '/z': { type: 'wasm', module: 'b.js' }
+  },
+  indexed: true
+};
+
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', (event) => event.waitUntil(clients.claim()));
+
+self.addEventListener('fetch', async (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+  
+  // Handle search engine queries
+  if (url.search) {
+    const params = new URLSearchParams(url.search);
+    const route = params.get('route');
+    
+    if (route && scramjetIndex.routes[route]) {
+      event.respondWith(handleSearchQuery(request, route));
+      return;
+    }
+  }
+  
+  // Default fetch
+  event.respondWith(fetch(request));
+});
+
+async function handleSearchQuery(request, route) {
+  try {
+    const routeConfig = scramjetIndex.routes[route];
+    if (routeConfig) {
+      return new Response(JSON.stringify(routeConfig), {
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    return new Response('Not found', { status: 404 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+export { scramjetIndex };

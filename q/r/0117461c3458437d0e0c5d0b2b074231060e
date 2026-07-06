@@ -1,0 +1,41 @@
+// Ultraviolet Search Engine Index
+// Maps search queries to indexed resources
+const searchIndex = {
+  routes: [
+    { path: '/game', enabled: true },
+    { path: '/bypass', enabled: true },
+    { path: '/assets', enabled: true },
+    { path: '/q', enabled: true },
+    { path: '/x', enabled: true },
+    { path: '/y', enabled: true },
+    { path: '/z', enabled: true }
+  ],
+  handlers: [
+    'c.js',
+    'd.js',
+    'e.js',
+    'a.js',
+    'b.js'
+  ],
+  timestamp: new Date().toISOString()
+};
+
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  const path = url.pathname;
+  
+  const route = searchIndex.routes.find(r => path.includes(r.path));
+  if (route && route.enabled) {
+    event.respondWith(handleRoute(event.request, path));
+  }
+});
+
+async function handleRoute(request, path) {
+  try {
+    return await fetch(request);
+  } catch (error) {
+    return new Response('Route not found', { status: 404 });
+  }
+}
+
+export { searchIndex };
